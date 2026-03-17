@@ -2,38 +2,29 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <title>Gastro-Core VRM | Finanční Monitoring</title>
+    <title>Gastro-Core VRM</title>
     <style>
-        :root { --v-blue: #3065ab; --v-green: #5eb531; --v-gray: #e0e0e0; }
-        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
-        .card { background: white; border-radius: 12px; padding: 20px; width: 320px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        
-        /* Victron Gauge Logic */
+        :root { --v-blue: #3065ab; --v-green: #5eb531; --v-gray: #e0e0e0; --bg: #f4f4f4; }
+        body { font-family: sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        .vrm-card { background: white; border-radius: 12px; padding: 20px; width: 300px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .gauge-container { position: relative; width: 200px; height: 110px; margin: 0 auto; overflow: hidden; }
         .arc { position: absolute; border-radius: 50%; border: 2px solid transparent; transform: rotate(-45deg); }
-        
-        /* Rozpočet 260k */
-        .budget-arc { width: 190px; height: 190px; border-color: var(--v-gray); top: 10px; left: 5px; border-bottom-color: transparent; border-right-color: transparent; }
-        
-        /* Aktuální útrata (příklad 45k) */
-        .spent-arc { width: 150px; height: 150px; border-color: var(--v-blue); top: 30px; left: 25px; border-width: 6px; border-bottom-color: transparent; border-right-color: transparent; }
-        
-        /* Bilance (Zelená = OK) */
-        .status-arc { width: 110px; height: 110px; border-color: var(--v-green); top: 50px; left: 45px; border-width: 10px; border-bottom-color: transparent; border-right-color: transparent; }
-        
-        .label { text-align: center; margin-top: 10px; font-weight: bold; }
+        .b-arc { width: 180px; height: 180px; border-color: var(--v-gray); top: 10px; left: 10px; border-bottom-color: transparent; border-right-color: transparent; }
+        .s-arc { width: 150px; height: 150px; border-color: var(--v-blue); top: 25px; left: 25px; border-width: 6px; border-bottom-color: transparent; border-right-color: transparent; }
+        .status-arc { width: 120px; height: 120px; border-color: var(--v-green); top: 40px; left: 40px; border-width: 10px; border-bottom-color: transparent; border-right-color: transparent; }
+        .info { text-align: center; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h3>FINANČNÍ PRŮTOK</h3>
+    <div class="vrm-card">
+        <h3>FINANCE MĚSÍC</h3>
         <div class="gauge-container">
-            <div class="arc budget-arc"></div>
-            <div class="arc spent-arc"></div>
+            <div class="arc b-arc"></div>
+            <div class="arc s-arc"></div>
             <div class="arc status-arc"></div>
         </div>
-        <div class="label">Měsíční limit: 260 000 Kč</div>
-        <div style="color: var(--v-blue); text-align: center; font-size: 0.8rem;">Aktuálně čerpáno: 17%</div>
+        <div class="info">Limit: 260 000 Kč</div>
+        <p style="text-align:center; color: var(--v-blue)">Stav: OK</p>
     </div>
 </body>
 </html>
