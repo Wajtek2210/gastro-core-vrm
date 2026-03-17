@@ -2,135 +2,38 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gastro-Core VRM | Trucovna</title>
+    <title>Gastro-Core VRM | Finanční Monitoring</title>
     <style>
-        :root {
-            --v-blue: #3065ab;     /* Victron Blue */
-            --v-orange: #e78d06;   /* Victron Orange */
-            --v-green: #5eb531;    /* Victron Green */
-            --v-light: #ffffff;
-            --v-gray-bg: #f4f4f4;
-            --v-text: #333333;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--v-gray-bg);
-            color: var(--v-text);
-        }
-
-        header {
-            background: var(--v-light);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .logo { font-weight: bold; font-size: 1.2rem; }
-        .logo span { color: var(--v-blue); }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            padding: 2rem;
-        }
-
-        .vrm-card {
-            background: var(--v-light);
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        /* Kruhové indikátory - Gauge linky */
-        .gauge-wrapper {
-            position: relative;
-            width: 180px;
-            height: 100px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-
-        .gauge-arc {
-            position: absolute;
-            top: 0; left: 0;
-            width: 170px; height: 170px;
-            border-radius: 50%;
-            border: 2px solid #eee;
-        }
-
-        .arc-budget { border-top-color: #ddd; transform: rotate(-45deg); width: 170px; height: 170px; }
-        .arc-account { border-top-color: var(--v-blue); transform: rotate(10deg); width: 140px; height: 140px; top: 15px; left: 15px; border-width: 5px; }
-        .arc-balance { border-top-color: var(--v-green); transform: rotate(30deg); width: 110px; height: 110px; top: 30px; left: 30px; border-width: 8px; }
-
-        .menu-main {
-            grid-column: span 1;
-            border-bottom: 5px solid var(--v-blue);
-        }
-
-        .menu-main h2 { color: var(--v-blue); margin: 0.5rem 0; }
-
-        .status-bar {
-            background: #eee;
-            height: 10px;
-            border-radius: 5px;
-            margin: 1rem 0;
-            overflow: hidden;
-        }
-        .status-fill { background: var(--v-green); width: 100%; height: 100%; }
-
-        .btn-vrm {
-            background: var(--v-blue);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .btn-vrm:hover { opacity: 0.8; }
+        :root { --v-blue: #3065ab; --v-green: #5eb531; --v-gray: #e0e0e0; }
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .card { background: white; border-radius: 12px; padding: 20px; width: 320px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        /* Victron Gauge Logic */
+        .gauge-container { position: relative; width: 200px; height: 110px; margin: 0 auto; overflow: hidden; }
+        .arc { position: absolute; border-radius: 50%; border: 2px solid transparent; transform: rotate(-45deg); }
+        
+        /* Rozpočet 260k */
+        .budget-arc { width: 190px; height: 190px; border-color: var(--v-gray); top: 10px; left: 5px; border-bottom-color: transparent; border-right-color: transparent; }
+        
+        /* Aktuální útrata (příklad 45k) */
+        .spent-arc { width: 150px; height: 150px; border-color: var(--v-blue); top: 30px; left: 25px; border-width: 6px; border-bottom-color: transparent; border-right-color: transparent; }
+        
+        /* Bilance (Zelená = OK) */
+        .status-arc { width: 110px; height: 110px; border-color: var(--v-green); top: 50px; left: 45px; border-width: 10px; border-bottom-color: transparent; border-right-color: transparent; }
+        
+        .label { text-align: center; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
-
-<header>
-    <div class="logo">GASTRO-CORE <span>VRM</span></div>
-    <div style="font-size: 0.9rem; color: #666;">Trucovna.com | Monitoring</div>
-</header>
-
-<main class="dashboard-grid">
-    <div class="vrm-card">
-        <h3>FINANCE MĚSÍC</h3>
-        <div class="gauge-wrapper">
-            <div class="gauge-arc arc-budget"></div>
-            <div class="gauge-arc arc-account"></div>
-            <div class="gauge-arc arc-balance"></div>
+    <div class="card">
+        <h3>FINANČNÍ PRŮTOK</h3>
+        <div class="gauge-container">
+            <div class="arc budget-arc"></div>
+            <div class="arc spent-arc"></div>
+            <div class="arc status-arc"></div>
         </div>
-        <p style="color: var(--v-green); font-weight: bold; margin-top: 10px;">BILANCE: AKTIVNÍ</p>
+        <div class="label">Měsíční limit: 260 000 Kč</div>
+        <div style="color: var(--v-blue); text-align: center; font-size: 0.8rem;">Aktuálně čerpáno: 17%</div>
     </div>
-
-    <div class="vrm-card menu-main">
-        <small>DNES VAŘÍME</small>
-        <h2>ŠPAGETY S MASOVOU SMĚSÍ</h2>
-        <div class="status-bar"><div class="status-fill"></div></div>
-        <p><small>Zítra: KOMPLETNĚ NASKLADNĚNO</small></p>
-    </div>
-
-    <div class="vrm-card">
-        <h3>SPOTŘEBNÍ KOŠ</h3>
-        <div style="font-size: 3.5rem; font-weight: bold; color: var(--v-green); margin: 1rem 0;">92%</div>
-        <button class="btn-vrm">DETAILNÍ POHLED</button>
-    </div>
-</main>
-
 </body>
 </html>
